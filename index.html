@@ -5,73 +5,310 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>香川旅行のしおり（2/21-2/23）</title>
   <style>
-    :root { --bg:#0b1220; --card:#111a2e; --text:#eaf0ff; --muted:#a9b4d0; --accent:#6aa9ff; --line:#243152; --ok:#7ee787; --warn:#ffcc66; }
-    body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
-      background: linear-gradient(180deg, #091021, #070b15); color:var(--text); }
-    a { color: var(--accent); text-decoration: none; }
+    :root {
+      --bg1: #fff8f0;
+      --bg2: #f2f8ff;
+      --ink: #3e3a53;
+      --muted: #6f6b82;
+      --card: rgba(255,255,255,.88);
+      --line: #e7defb;
+      --accent: #ff7d7d;
+      --accent2: #6a91ff;
+      --ok: #248a62;
+      --warn: #b96b00;
+      --shadow: 0 14px 30px rgba(74, 59, 122, .12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Hiragino Maru Gothic ProN", "M PLUS Rounded 1c", "Yu Gothic", "Meiryo", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 12%, rgba(255,172,154,.34) 0, rgba(255,172,154,0) 36%),
+        radial-gradient(circle at 90% 2%, rgba(152,194,255,.35) 0, rgba(152,194,255,0) 30%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
+      position: relative;
+    }
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(2px);
+    }
+    body::before {
+      width: 320px;
+      height: 320px;
+      left: -130px;
+      top: 55vh;
+      background: rgba(255, 216, 169, .35);
+    }
+    body::after {
+      width: 300px;
+      height: 300px;
+      right: -120px;
+      top: 35vh;
+      background: rgba(173, 205, 255, .28);
+    }
+    a { color: #3258cb; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    header { padding: 20px 16px 8px; max-width: 1100px; margin: 0 auto; }
-    h1 { margin: 8px 0 4px; font-size: 22px; }
-    .sub { color: var(--muted); font-size: 13px; line-height: 1.5; }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 12px 16px 40px; }
+    header { padding: 24px 16px 8px; max-width: 1120px; margin: 0 auto; }
+    h1 { margin: 10px 0 6px; font-size: clamp(24px, 3vw, 34px); line-height: 1.25; }
+    .sub { color: var(--muted); font-size: 14px; line-height: 1.65; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 16px;
+      overflow: hidden;
+      border-radius: 24px;
+      position: relative;
+      animation: rise .55s ease both;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      right: -90px;
+      top: -90px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(255,127,127,.2), rgba(255,127,127,0) 66%);
+      pointer-events: none;
+    }
+    .hero-tags { display:flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .hero-visual {
+      align-self: stretch;
+      min-height: 200px;
+      border-radius: 20px;
+      background: linear-gradient(150deg, #ffedf3, #e9f4ff);
+      border: 1px solid #ecdfff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+      display: grid;
+      place-items: center;
+    }
+    .hero-visual svg { width: 100%; max-width: 300px; height: auto; animation: floaty 4s ease-in-out infinite; }
+    .hero-controls { margin-top: 14px; }
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px dashed #e6d9ff;
+      background: rgba(255,255,255,.66);
+      margin-top: 12px;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 12px 16px 48px; }
     .grid { display:grid; grid-template-columns: 1.2fr .8fr; gap: 12px; }
-    @media (max-width: 960px){ .grid{ grid-template-columns: 1fr; } }
-    .card { background: rgba(17,26,46,.92); border:1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: 0 12px 30px rgba(0,0,0,.25); }
-    .card h2 { margin: 0 0 10px; font-size: 16px; }
-    .badge { display:inline-block; padding: 4px 8px; border-radius: 999px; background: rgba(106,169,255,.12); border:1px solid rgba(106,169,255,.25); color: var(--accent); font-size: 12px; }
+    @media (max-width: 980px){
+      .grid { grid-template-columns: 1fr; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-visual { min-height: 150px; }
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(2px);
+      animation: rise .55s ease both;
+    }
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 17px;
+      letter-spacing: .01em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card h2::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 5px;
+      background: linear-gradient(160deg, #ffaca4, #ffc9a0);
+      box-shadow: 0 2px 8px rgba(255, 140, 108, .35);
+    }
+    .badge {
+      display:inline-block;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: linear-gradient(150deg, #ffe7c3, #ffd1c8);
+      border: 1px solid #ffc3b2;
+      color: #9a4d2c;
+      font-weight: 700;
+      font-size: 12px;
+    }
     .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    .btn { cursor:pointer; border:1px solid var(--line); background: rgba(255,255,255,.04); color: var(--text);
-      padding: 8px 10px; border-radius: 10px; font-size: 13px; }
-    .btn:hover { background: rgba(255,255,255,.08); }
-    .btn.primary { border-color: rgba(106,169,255,.4); background: rgba(106,169,255,.12); }
-    .btn.danger { border-color: rgba(255,120,120,.35); background: rgba(255,120,120,.10); }
-    .note { color: var(--muted); font-size: 12px; line-height: 1.6; }
-    table { width:100%; border-collapse: collapse; overflow:hidden; border-radius: 12px; border:1px solid var(--line); }
-    th,td { padding: 10px 10px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 13px; }
-    th { text-align:left; background: rgba(255,255,255,.03); color: var(--muted); width: 98px; }
+    .btn {
+      cursor:pointer;
+      border:1px solid #dcccf9;
+      background: #fff;
+      color: #4f4763;
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(91, 66, 168, .12);
+      background: #fffdfd;
+    }
+    .btn.primary {
+      border-color: #9db8ff;
+      background: linear-gradient(145deg, #eff4ff, #e8f0ff);
+      color: #2950be;
+    }
+    .btn.danger {
+      border-color: #ffc3c0;
+      background: linear-gradient(145deg, #fff2f2, #ffe9e9);
+      color: #b64b44;
+    }
+    table {
+      width:100%;
+      border-collapse: collapse;
+      overflow:hidden;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: #fff;
+    }
+    th,td {
+      padding: 11px 10px;
+      border-bottom: 1px solid #f2ecff;
+      vertical-align: top;
+      font-size: 13px;
+    }
+    th {
+      text-align:left;
+      background: #fbf8ff;
+      color: var(--muted);
+      width: 104px;
+      font-weight: 700;
+    }
     tr:last-child td, tr:last-child th { border-bottom: none; }
-    .pill { display:inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; border:1px solid var(--line); color: var(--muted); }
+    .pill {
+      display:inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      border:1px solid #ded4f9;
+      background: #faf7ff;
+      color: #6f6790;
+    }
     .ok { color: var(--ok); }
     .warn { color: var(--warn); }
     .timeline { display:flex; flex-direction: column; gap: 10px; }
-    .item { border:1px solid var(--line); border-radius: 12px; padding: 10px; background: rgba(255,255,255,.02); }
+    .item {
+      border:1px solid #ebe4fc;
+      border-radius: 14px;
+      padding: 11px;
+      background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(252,248,255,.95));
+    }
     .item .top { display:flex; justify-content: space-between; gap:10px; align-items: baseline; }
-    .time { font-weight: 700; letter-spacing: .3px; }
+    .time { font-weight: 700; letter-spacing: .3px; color: #3b4d9e; }
     .title { font-weight: 700; }
-    .meta { color: var(--muted); font-size: 12px; margin-top: 6px; line-height: 1.5; }
+    .meta { color: var(--muted); font-size: 12px; margin-top: 6px; line-height: 1.6; }
     .k { color: var(--muted); }
-    .hr { height:1px; background: var(--line); margin: 10px 0; }
+    .hr { height:1px; background: #e8defb; margin: 12px 0; }
     .edit { outline: none; }
-    .edit[contenteditable="true"] { box-shadow: inset 0 0 0 2px rgba(106,169,255,.25); border-radius: 8px; padding: 2px 4px; }
+    .edit[contenteditable="true"] {
+      box-shadow: inset 0 0 0 2px rgba(90,128,236,.25);
+      border-radius: 8px;
+      padding: 2px 4px;
+      background: #f7fbff;
+    }
     .small { font-size: 12px; color: var(--muted); }
-    .checklist label{ display:flex; gap:10px; align-items:flex-start; padding: 8px 8px; border:1px solid var(--line); border-radius: 12px; margin: 6px 0; background: rgba(255,255,255,.02); }
-    .checklist input{ margin-top: 2px; }
+    .checklist label{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding: 8px 8px;
+      border:1px solid #ebe4fc;
+      border-radius: 12px;
+      margin: 7px 0;
+      background: #fff;
+    }
+    .checklist input{
+      margin-top: 2px;
+      accent-color: #ff7d7d;
+    }
     .footer { margin-top: 12px; color: var(--muted); font-size: 12px; }
     .two { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     @media (max-width: 720px){ .two{ grid-template-columns: 1fr; } }
-    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono", monospace; font-size: 12px; padding: 2px 6px; border:1px solid var(--line); border-radius: 8px; background: rgba(0,0,0,.2); }
+    .kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono", monospace;
+      font-size: 12px;
+      padding: 2px 6px;
+      border:1px solid #d7cbf4;
+      border-radius: 8px;
+      background: #fff;
+      color: #514a6b;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floaty {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
   </style>
 </head>
 <body>
   <header>
-    <div class="row" style="justify-content:space-between;">
+    <div class="card hero">
       <div>
         <div class="badge">旅行のしおり</div>
         <h1 class="edit" data-key="title">香川旅行（2/21(土)〜2/23(月)）</h1>
         <div class="sub edit" data-key="subtitle">
           高松センチュリーホテル泊（2/21-22）／移動：レンタカー＋船（直島・女木島）
         </div>
+        <div class="hero-tags">
+          <span class="pill">うどん旅</span>
+          <span class="pill">島アート</span>
+          <span class="pill">レンタカー移動</span>
+        </div>
+        <div class="row hero-controls">
+          <button class="btn primary" id="toggleEdit">編集モード：OFF</button>
+          <button class="btn" id="copyUrl">このページの共有方法</button>
+          <button class="btn" onclick="window.print()">印刷 / PDF</button>
+          <button class="btn danger" id="reset">変更をリセット</button>
+        </div>
+        <div class="note">
+          ブラウザで内容を直接編集できます（編集モードON）。変更はこのPC/スマホのブラウザに保存されます。<br/>
+          友達と同じ内容を共有したい場合は、後述の「共有方法」どおりに<strong>GitHub Pages等で公開</strong>するとURLで共有できます。
+        </div>
       </div>
-      <div class="row">
-        <button class="btn primary" id="toggleEdit">編集モード：OFF</button>
-        <button class="btn" id="copyUrl">このページの共有方法</button>
-        <button class="btn" onclick="window.print()">印刷 / PDF</button>
-        <button class="btn danger" id="reset">変更をリセット</button>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 340 230" role="img">
+          <defs>
+            <linearGradient id="sea" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#a9d6ff" />
+              <stop offset="100%" stop-color="#8ac5ff" />
+            </linearGradient>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffe8cc" />
+              <stop offset="100%" stop-color="#ffd6dd" />
+            </linearGradient>
+          </defs>
+          <rect x="20" y="28" width="300" height="174" rx="24" fill="url(#sky)" />
+          <circle cx="95" cy="74" r="24" fill="#ffd58f" />
+          <path d="M20 150 Q110 120 180 150 T320 148 L320 202 L20 202Z" fill="url(#sea)" />
+          <path d="M78 156 C112 112 132 111 160 156 Z" fill="#88b596" />
+          <path d="M185 160 C213 120 244 125 267 160 Z" fill="#83ab8c" />
+          <circle cx="135" cy="130" r="5" fill="#fff" opacity=".72" />
+          <circle cx="152" cy="122" r="3.5" fill="#fff" opacity=".72" />
+          <path d="M234 90 q8 -8 16 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" />
+          <path d="M250 90 q8 -8 16 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" />
+          <rect x="84" y="102" width="44" height="26" rx="8" fill="#fff5f2" />
+          <path d="M88 124 L106 110 L124 124" fill="none" stroke="#f08e8e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
       </div>
-    </div>
-    <div class="note">
-      💡 ブラウザで内容を直接編集できます（編集モードON）。変更はこのPC/スマホのブラウザに保存されます。<br/>
-      友達と同じ内容を共有したい場合は、後述の「共有方法」どおりに<strong>GitHub Pages等で公開</strong>するとURLで共有できます。
     </div>
   </header>
 
