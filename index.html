@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>香川旅行のしおり（2/21-2/23）</title>
+  <style>
+    :root { --bg:#0b1220; --card:#111a2e; --text:#eaf0ff; --muted:#a9b4d0; --accent:#6aa9ff; --line:#243152; --ok:#7ee787; --warn:#ffcc66; }
+    body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+      background: linear-gradient(180deg, #091021, #070b15); color:var(--text); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header { padding: 20px 16px 8px; max-width: 1100px; margin: 0 auto; }
+    h1 { margin: 8px 0 4px; font-size: 22px; }
+    .sub { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 12px 16px 40px; }
+    .grid { display:grid; grid-template-columns: 1.2fr .8fr; gap: 12px; }
+    @media (max-width: 960px){ .grid{ grid-template-columns: 1fr; } }
+    .card { background: rgba(17,26,46,.92); border:1px solid var(--line); border-radius: 14px; padding: 14px; box-shadow: 0 12px 30px rgba(0,0,0,.25); }
+    .card h2 { margin: 0 0 10px; font-size: 16px; }
+    .badge { display:inline-block; padding: 4px 8px; border-radius: 999px; background: rgba(106,169,255,.12); border:1px solid rgba(106,169,255,.25); color: var(--accent); font-size: 12px; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .btn { cursor:pointer; border:1px solid var(--line); background: rgba(255,255,255,.04); color: var(--text);
+      padding: 8px 10px; border-radius: 10px; font-size: 13px; }
+    .btn:hover { background: rgba(255,255,255,.08); }
+    .btn.primary { border-color: rgba(106,169,255,.4); background: rgba(106,169,255,.12); }
+    .btn.danger { border-color: rgba(255,120,120,.35); background: rgba(255,120,120,.10); }
+    .note { color: var(--muted); font-size: 12px; line-height: 1.6; }
+    table { width:100%; border-collapse: collapse; overflow:hidden; border-radius: 12px; border:1px solid var(--line); }
+    th,td { padding: 10px 10px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 13px; }
+    th { text-align:left; background: rgba(255,255,255,.03); color: var(--muted); width: 98px; }
+    tr:last-child td, tr:last-child th { border-bottom: none; }
+    .pill { display:inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; border:1px solid var(--line); color: var(--muted); }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    .timeline { display:flex; flex-direction: column; gap: 10px; }
+    .item { border:1px solid var(--line); border-radius: 12px; padding: 10px; background: rgba(255,255,255,.02); }
+    .item .top { display:flex; justify-content: space-between; gap:10px; align-items: baseline; }
+    .time { font-weight: 700; letter-spacing: .3px; }
+    .title { font-weight: 700; }
+    .meta { color: var(--muted); font-size: 12px; margin-top: 6px; line-height: 1.5; }
+    .k { color: var(--muted); }
+    .hr { height:1px; background: var(--line); margin: 10px 0; }
+    .edit { outline: none; }
+    .edit[contenteditable="true"] { box-shadow: inset 0 0 0 2px rgba(106,169,255,.25); border-radius: 8px; padding: 2px 4px; }
+    .small { font-size: 12px; color: var(--muted); }
+    .checklist label{ display:flex; gap:10px; align-items:flex-start; padding: 8px 8px; border:1px solid var(--line); border-radius: 12px; margin: 6px 0; background: rgba(255,255,255,.02); }
+    .checklist input{ margin-top: 2px; }
+    .footer { margin-top: 12px; color: var(--muted); font-size: 12px; }
+    .two { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 720px){ .two{ grid-template-columns: 1fr; } }
+    .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono", monospace; font-size: 12px; padding: 2px 6px; border:1px solid var(--line); border-radius: 8px; background: rgba(0,0,0,.2); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="row" style="justify-content:space-between;">
+      <div>
+        <div class="badge">旅行のしおり</div>
+        <h1 class="edit" data-key="title">香川旅行（2/21(土)〜2/23(月)）</h1>
+        <div class="sub edit" data-key="subtitle">
+          高松センチュリーホテル泊（2/21-22）／移動：レンタカー＋船（直島・女木島）
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn primary" id="toggleEdit">編集モード：OFF</button>
+        <button class="btn" id="copyUrl">このページの共有方法</button>
+        <button class="btn" onclick="window.print()">印刷 / PDF</button>
+        <button class="btn danger" id="reset">変更をリセット</button>
+      </div>
+    </div>
+    <div class="note">
+      💡 ブラウザで内容を直接編集できます（編集モードON）。変更はこのPC/スマホのブラウザに保存されます。<br/>
+      友達と同じ内容を共有したい場合は、後述の「共有方法」どおりに<strong>GitHub Pages等で公開</strong>するとURLで共有できます。
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="grid">
+      <!-- LEFT -->
+      <div class="card">
+        <h2>確定情報</h2>
+        <table>
+          <tr>
+            <th>行き</th>
+            <td class="edit" data-key="flight_out">
+              2/21(土) 羽田 07:45 → 高松 09:10
+            </td>
+          </tr>
+          <tr>
+            <th>帰り</th>
+            <td class="edit" data-key="flight_in">
+              2/23(月) 高松 15:25 → 羽田 16:45
+            </td>
+          </tr>
+          <tr>
+            <th>宿泊</th>
+            <td class="edit" data-key="hotel">
+              高松センチュリーホテル（2/21-22）
+            </td>
+          </tr>
+          <tr>
+            <th>移動</th>
+            <td class="edit" data-key="transport">
+              レンタカー（島は基本：港に駐車→人だけ船）
+            </td>
+          </tr>
+          <tr>
+            <th>行きたい</th>
+            <td class="edit" data-key="wants">
+              父母ヶ浜／金刀比羅宮／直島／鬼ヶ島(女木島)大洞窟（可能なら）／うどん複数
+            </td>
+          </tr>
+        </table>
+
+        <div class="hr"></div>
+
+        <h2>ざっくり方針（おすすめ）</h2>
+        <div class="timeline">
+          <div class="item">
+            <div class="top"><div class="title">2/21(土) 西＋中讃：金刀比羅宮 → 父母ヶ浜 → 高松泊</div><div class="pill">運転：普通</div></div>
+            <div class="meta edit" data-key="policy1">
+              到着日なので船は使わず、陸で完結。父母ヶ浜は雰囲気だけでOKなので滞在は短めでも満足。
+            </div>
+          </div>
+          <div class="item">
+            <div class="top"><div class="title">2/22(日) 直島：予約なしの“軽めアート散策”</div><div class="pill">船：天候注意</div></div>
+            <div class="meta edit" data-key="policy2">
+              地中美術館は必須にしない。宮浦＋本村＋屋外作品中心で気楽に回す。
+            </div>
+          </div>
+          <div class="item">
+            <div class="top"><div class="title">2/23(月) 午前だけ：女木島（鬼ヶ島大洞窟）→ 空港</div><div class="pill">時間厳守</div></div>
+            <div class="meta edit" data-key="policy3">
+              フライトがあるので午前の短時間に限定。欠航リスクがあれば無理しない。
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="card">
+        <h2>リンク集（公式・時刻表など）</h2>
+        <div class="note">※必要に応じてリンクを追加・差し替えしてください。</div>
+        <ul class="edit" data-key="links" style="line-height:1.9; padding-left: 18px;">
+          <li><a href="https://www.konpira.or.jp/" target="_blank" rel="noopener">金刀比羅宮（公式）</a> <span class="k">…参拝時間/授与所など</span></li>
+          <li><a href="https://www.mitoyo-kanko.com/chichibugahama/" target="_blank" rel="noopener">父母ヶ浜（観光協会）</a> <span class="k">…干潮/混雑/駐車場案内</span></li>
+          <li><a href="https://www.shikokukisen.com/" target="_blank" rel="noopener">四国汽船（高松⇄直島）</a> <span class="k">…時刻表/運賃/運航情報</span></li>
+          <li><a href="https://meon.co.jp/" target="_blank" rel="noopener">雌雄島海運 めおん（高松⇄女木島/男木島）</a> <span class="k">…時刻表/運航情報</span></li>
+          <li><a href="https://www.onigasima.jp/" target="_blank" rel="noopener">鬼ヶ島大洞窟（公式）</a> <span class="k">…アクセス/料金/営業時間</span></li>
+          <li><a href="https://www.navitime.co.jp/" target="_blank" rel="noopener">NAVITIME（ルート検索）</a> <span class="k">…所要時間の再確認用</span></li>
+        </ul>
+
+        <div class="hr"></div>
+
+        <h2>運転の難しさ・注意点（目安）</h2>
+        <div class="timeline">
+          <div class="item">
+            <div class="top"><div class="title">空港〜琴平/三豊（父母ヶ浜）</div><div class="pill ok">走りやすい</div></div>
+            <div class="meta edit" data-key="drive1">
+              幹線/高速中心で運転しやすい。合流・IC周りは速度差に注意。
+            </div>
+          </div>
+          <div class="item">
+            <div class="top"><div class="title">琴平（参道周辺）</div><div class="pill warn">歩行者多</div></div>
+            <div class="meta edit" data-key="drive2">
+              細い道・駐車場出入り・歩行者が多い。早め到着＆徐行が安心。
+            </div>
+          </div>
+          <div class="item">
+            <div class="top"><div class="title">高松市街〜港（サンポート）</div><div class="pill warn">車線変更</div></div>
+            <div class="meta edit" data-key="drive3">
+              信号・右左折・車線変更が多い。ナビの「車線案内」をON推奨。時間に余裕を持つ。
+            </div>
+          </div>
+          <div class="item">
+            <div class="top"><div class="title">船（直島/女木島）</div><div class="pill warn">欠航あり</div></div>
+            <div class="meta edit" data-key="drive4">
+              風が強いと欠航/遅延あり。行く前に運航情報を確認し、帰りは遅い便に寄せすぎない。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two" style="margin-top:12px;">
+      <div class="card">
+        <h2>日別スケジュール（予定表）</h2>
+        <div class="note">時間は「目安」です。昼食時間も組み込み済み。必要に応じて書き換えてください。</div>
+
+        <h3 style="margin:12px 0 8px; font-size:14px;">2/21(土) 金刀比羅宮 → 父母ヶ浜 → 高松泊</h3>
+        <div class="timeline edit" data-key="day1">
+          <div class="item">
+            <div class="top"><div><span class="time">09:10</span> <span class="title">高松空港 到着</span></div><span class="pill">到着</span></div>
+            <div class="meta">レンタカー受取・準備（～10:00目安）</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">10:00</span> <span class="title">空港 → 琴平（運転）</span></div><span class="pill">約60分</span></div>
+            <div class="meta">IC合流に注意。琴平の手前から混みやすいので早め到着が安心。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">11:00</span> <span class="title">金刀比羅宮</span></div><span class="pill">滞在2〜3h</span></div>
+            <div class="meta">本宮まで785段。休憩込みで2〜3時間。奥社まで行くなら＋1.5〜2h。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">13:30</span> <span class="title">昼食（うどん①）</span></div><span class="pill">45〜60分</span></div>
+            <div class="meta">琴平周辺 or 移動途中で。混雑があれば時間調整。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">15:00</span> <span class="title">琴平 → 父母ヶ浜（運転）</span></div><span class="pill">約40分</span></div>
+            <div class="meta">夕方は駐車場・歩行者増。構内は徐行。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">15:45</span> <span class="title">父母ヶ浜 散策</span></div><span class="pill">1〜2h</span></div>
+            <div class="meta">雰囲気だけならサクッとでもOK。時間があれば海辺でのんびり。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">17:30</span> <span class="title">父母ヶ浜 → 高松（運転）</span></div><span class="pill">約60分</span></div>
+            <div class="meta">帰路は暗くなりやすい。疲れてたら休憩を。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">19:00</span> <span class="title">夕食（うどん② or 名物）</span></div><span class="pill">60〜90分</span></div>
+            <div class="meta">高松市街。ホテルチェックイン前後で調整。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">20:30</span> <span class="title">ホテル</span></div><span class="pill">宿泊</span></div>
+            <div class="meta">翌日は船なので、時刻表チェック推奨。</div>
+          </div>
+        </div>
+
+        <h3 style="margin:14px 0 8px; font-size:14px;">2/22(日) 直島（予約なし軽め）</h3>
+        <div class="timeline edit" data-key="day2">
+          <div class="item">
+            <div class="top"><div><span class="time">08:00</span> <span class="title">ホテル → 高松港（運転）</span></div><span class="pill">約10〜20分</span></div>
+            <div class="meta">市街は車線変更多め。時間に余裕を。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">08:12</span> <span class="title">フェリー：高松 → 直島（宮浦）</span></div><span class="pill">約50分</span></div>
+            <div class="meta">例の便。実際の時刻は必ず公式で確認（運航情報も）。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">09:10</span> <span class="title">宮浦周辺＆屋外作品</span></div><span class="pill">〜1.5h</span></div>
+            <div class="meta">レンタサイクル/バスを確保してから動くとスムーズ。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">11:00</span> <span class="title">本村エリア散策</span></div><span class="pill">1.5〜2h</span></div>
+            <div class="meta">街歩き＋カフェ。混雑次第で調整。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">13:00</span> <span class="title">昼食（島内）</span></div><span class="pill">60分</span></div>
+            <div class="meta">ピークを避けるなら少し早め/遅めが楽。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">14:30</span> <span class="title">ベネッセ周辺（屋外作品中心）</span></div><span class="pill">〜2h</span></div>
+            <div class="meta">地中美術館は必須にしない前提。気が向いたら当日枠確認。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">17:00</span> <span class="title">フェリー：直島 → 高松</span></div><span class="pill">約50〜60分</span></div>
+            <div class="meta">帰りは遅い便に寄せすぎないと安心（欠航/遅延対策）。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">19:00</span> <span class="title">夕食（うどん③）</span></div><span class="pill">60〜90分</span></div>
+            <div class="meta">高松市内で締め。翌日は午前勝負。</div>
+          </div>
+        </div>
+
+        <h3 style="margin:14px 0 8px; font-size:14px;">2/23(月) 女木島（鬼ヶ島）午前 → 空港</h3>
+        <div class="timeline edit" data-key="day3">
+          <div class="item">
+            <div class="top"><div><span class="time">08:30</span> <span class="title">ホテル → 高松港（運転）</span></div><span class="pill">約10〜20分</span></div>
+            <div class="meta">出発前に「めおん」の運航情報を確認。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">09:00</span> <span class="title">フェリー：高松 → 女木島</span></div><span class="pill">約20分</span></div>
+            <div class="meta">便は例。必ず公式時刻表で調整。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">09:30</span> <span class="title">鬼ヶ島大洞窟</span></div><span class="pill">1.5〜2h</span></div>
+            <div class="meta">港↔洞窟の移動（バス/徒歩）込みで計画。混雑や天候で短縮も可。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">11:30</span> <span class="title">高松へ戻る</span></div><span class="pill">午前で撤収</span></div>
+            <div class="meta">フライトに向けて早め帰還。欠航リスクがあれば中止も判断。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">12:30</span> <span class="title">昼食（高松）</span></div><span class="pill">45〜60分</span></div>
+            <div class="meta">空港へ向かう前に。時間が押したら空港で軽食に切り替え。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">13:30</span> <span class="title">高松市内 → 高松空港（運転）</span></div><span class="pill">30〜50分</span></div>
+            <div class="meta">給油→返却→搭乗。渋滞や返却混雑に備えて余裕を。</div>
+          </div>
+          <div class="item">
+            <div class="top"><div><span class="time">15:25</span> <span class="title">高松 → 羽田</span></div><span class="pill">帰路</span></div>
+            <div class="meta">お疲れさまでした！</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card">
+        <h2>チェックリスト</h2>
+        <div class="note">チェック状態もこのブラウザに保存されます。</div>
+        <div class="checklist" id="checklist">
+          <label><input type="checkbox" data-check="car"><div><div class="title">レンタカー：免許・予約・保険・チャイルドシート要否</div><div class="small">返却場所／満タン返し／ETCカード有無</div></div></label>
+          <label><input type="checkbox" data-check="ship"><div><div class="title">船：直島・女木島の時刻表/運航情報を前日と当日確認</div><div class="small">風が強い日は欠航/遅延の可能性</div></div></label>
+          <label><input type="checkbox" data-check="parking"><div><div class="title">港：駐車場場所と料金（サンポート周辺）</div><div class="small">出庫に時間がかかることがある</div></div></label>
+          <label><input type="checkbox" data-check="udon"><div><div class="title">うどん：行きたい店候補を3〜5件ピック</div><div class="small">混雑時は“次点”へ即移動できるように</div></div></label>
+          <label><input type="checkbox" data-check="cash"><div><div class="title">現金・小銭：フェリーやローカル店で必要な場合あり</div><div class="small">島内の支払い手段は事前確認</div></div></label>
+          <label><input type="checkbox" data-check="wear"><div><div class="title">服装：金刀比羅宮は歩く（靴重要）</div><div class="small">雨具／防寒／歩きやすい靴</div></div></label>
+        </div>
+
+        <div class="hr"></div>
+
+        <h2>メモ（自由に書き換えOK）</h2>
+        <div class="item edit" data-key="memo" style="min-height:120px;">
+          ・うどん候補：<br/>
+          ・直島はどこまで回る？（宮浦／本村／ベネッセ周辺など）<br/>
+          ・2/23は欠航なら市内観光に切り替え（栗林公園など）<br/>
+        </div>
+
+        <div class="footer">
+          <div>編集のコツ：<span class="kbd">編集モードON</span>→文章をクリックして書き換え。</div>
+          <div>このHTMLを公開してURL共有すれば、友達も同じ内容を見られます。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Simple localStorage persistence for editable blocks + checklist.
+  const STORAGE_KEY = "kagawa_shiori_v1";
+  const CHECK_KEY = "kagawa_shiori_checks_v1";
+
+  const toggleBtn = document.getElementById("toggleEdit");
+  const resetBtn  = document.getElementById("reset");
+  const copyBtn   = document.getElementById("copyUrl");
+
+  let editing = false;
+
+  function setEditable(on){
+    editing = on;
+    document.querySelectorAll(".edit").forEach(el=>{
+      el.setAttribute("contenteditable", on ? "true" : "false");
+      if(on) el.classList.add("is-editing");
+      else el.classList.remove("is-editing");
+    });
+    toggleBtn.textContent = `編集モード：${on ? "ON" : "OFF"}`;
+  }
+
+  function saveEdits(){
+    const data = {};
+    document.querySelectorAll(".edit").forEach(el=>{
+      const key = el.getAttribute("data-key");
+      if(!key) return;
+      data[key] = el.innerHTML;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  function loadEdits(){
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return;
+    try{
+      const data = JSON.parse(raw);
+      Object.entries(data).forEach(([key, html])=>{
+        const el = document.querySelector(`.edit[data-key="${CSS.escape(key)}"]`);
+        if(el) el.innerHTML = html;
+      });
+    }catch(e){}
+  }
+
+  function saveChecks(){
+    const checks = {};
+    document.querySelectorAll('#checklist input[type="checkbox"][data-check]').forEach(cb=>{
+      checks[cb.dataset.check] = cb.checked;
+    });
+    localStorage.setItem(CHECK_KEY, JSON.stringify(checks));
+  }
+
+  function loadChecks(){
+    const raw = localStorage.getItem(CHECK_KEY);
+    if(!raw) return;
+    try{
+      const checks = JSON.parse(raw);
+      document.querySelectorAll('#checklist input[type="checkbox"][data-check]').forEach(cb=>{
+        cb.checked = !!checks[cb.dataset.check];
+      });
+    }catch(e){}
+  }
+
+  toggleBtn.addEventListener("click", ()=>{
+    setEditable(!editing);
+  });
+
+  document.addEventListener("input", (e)=>{
+    if(!editing) return;
+    if(e.target.closest(".edit")) saveEdits();
+  });
+
+  document.querySelectorAll('#checklist input[type="checkbox"]').forEach(cb=>{
+    cb.addEventListener("change", saveChecks);
+  });
+
+  resetBtn.addEventListener("click", ()=>{
+    if(confirm("このブラウザに保存した変更をリセットします。よろしいですか？")){
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(CHECK_KEY);
+      location.reload();
+    }
+  });
+
+  copyBtn.addEventListener("click", async ()=>{
+    const msg =
+`共有のおすすめ（かんたん）：
+1) このHTMLをGitHubに置く（無料）
+2) GitHub PagesをONにしてURL発行
+3) そのURLをLINEで送る
+
+いま開いているURLが https で公開済みなら「URLをコピー」して送ればOKです。
+ローカル（file://）で開いている場合は、まず公開が必要です。`;
+
+    try{
+      await navigator.clipboard.writeText(msg);
+      alert("共有手順をクリップボードにコピーしました。LINEに貼り付けて送れます。");
+    }catch(e){
+      alert(msg);
+    }
+  });
+
+  // Initial load
+  loadEdits();
+  loadChecks();
+  setEditable(false);
+</script>
+</body>
+</html>
